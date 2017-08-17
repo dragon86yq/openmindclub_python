@@ -11,7 +11,7 @@ class Scene(object):
 
 class Engine(object):
     
-    def __init__(sefl,scene_map):
+    def __init__(self,scene_map):
         self.scene_map = scene_map
 
     def play(self):
@@ -20,7 +20,7 @@ class Engine(object):
         while True:
             print("\n---------")
             next_scene_name = current_scene.enter()
-            current_scene = self.scene_map.opening_scene(next_scene_name)
+            current_scene = self.scene_map.next_scene(next_scene_name)
 
 class Death(Scene):
     quips = [
@@ -58,7 +58,7 @@ class CentralCorridor(Scene):
             print("you are dead. Then he eats you.")
             return 'death'       
 
-            elif action == "dodge!":
+        elif action == "dodge!":
             print("Like a world class boxer you dodge, weave, slip and slide right")
             print("as the Gothon's blaster cranks a laser past your head.")
             print("In the middle of your artful dodge your foot slips and you")
@@ -67,7 +67,7 @@ class CentralCorridor(Scene):
             print("your head and eats you.")
             return 'death'
             
-            elif action == "tell a joke":
+        elif action == "tell a joke":
             print("Lucky for you they made you learn Gothon insults in the academy.")
             print("You tell the one Gothon joke you know:")
             print("Lbhe zbgure vf fb sng, jura fur fvgf nebhaq gur ubhfr, fur fvgf nebhaq gur ubhfr.")
@@ -76,7 +76,7 @@ class CentralCorridor(Scene):
             print("putting him down, then jump through the Weapon Armory door.")
             return 'laser_weapon_armory'
 
-            else:
+        else:
                 print("DOES NOT COMPUTE!")
                 print("central_corridor")
 
@@ -178,19 +178,19 @@ class EscapePod(Scene):
 
 class Map(object):
 
-    scenes = [
+    scenes = {
         'central_corridor': CentralCorridor(),
         'laser_weapon_armory': LaserWeaponArmory(),
         'the_bridge': TheBridge(),
         'escape_pod': EscapePod(),
         'death': Death()
-     ]
+     }
 
     def __init__(self,start_scene):
         self.start_scene = start_scene
 
     def next_scene(self,scene_name):
-        return Map.scene.get(scene_name)
+        return Map.scenes.get(scene_name)
 
     def opening_scene(self):
         return self.next_scene(self.start_scene)
